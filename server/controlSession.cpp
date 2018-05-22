@@ -120,7 +120,7 @@ void ControlSession::reader()
 		{
 			asio::streambuf response;
 			asio::read_until(*socket_, response, "\n");
-
+			if (response.in_avail()>0){
 			std::string s((istreambuf_iterator<char>(&response)), istreambuf_iterator<char>());
 			message << s;
 			if (s.empty() || (s.back() != '\n'))
@@ -141,6 +141,7 @@ void ControlSession::reader()
 			}
 			message.str("");
 			message.clear();
+			}
 		}
 	}
 	catch (const std::exception& e)
